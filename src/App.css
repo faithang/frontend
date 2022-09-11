@@ -54,3 +54,12 @@
 .has-background-gradient > :is(h1, h2, h3, h4, h5, h6), .has-background-gradient > .sgds-breadcrumb a, .has-background-gradient > .sgds-breadcrumb li+li:before {
   color: white;
 }
+
+.table-input {
+  border: 0;
+  width: 100%
+}
+
+.delete-icon:hover {
+    cursor: pointer;
+}
