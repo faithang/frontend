@@ -1,43 +1,36 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import logo from './logo.svg';
-import './App.css';
+import Clock from './components/Clock';
+import NavigationBar from './components/NavigationBar';
+import Todo from './screens/Todo';
 
-import CONFIG from './config';
 
-export type msgType = {
-  title: string
-};
-
-function App() {
-  const [msg, setMsg] = useState('')
-
-  const fetchMsg = useCallback(async () => {
-    await fetch(`${CONFIG.API_ENDPOINT}/hello`)
-      .then((response: Response) => response.json())
-      .then((data: msgType) => setMsg(data.title))
-  }, []);
-
-  useEffect(() => {
-    fetchMsg();
-  }, [fetchMsg])
-
+function App():React.ReactElement {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload. {msg}
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <NavigationBar />
+      <Routes>
+        <Route path="/todo" element={<Todo />} />
+        <Route path="/" element={
+          <div className="App">
+            <header className="App-header">
+              <img src={logo} className="App-logo" alt="logo" />
+              <p>
+                Edit <code>src/App.tsx</code> and save to reload.
+              </p>
+              <a
+                className="App-link"
+                href="https://reactjs.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                >
+              </a>
+            </header>
+          </div>
+        } />    
+      </Routes>
+    </BrowserRouter>
   );
 }
 
