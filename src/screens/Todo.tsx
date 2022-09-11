@@ -19,7 +19,6 @@ export type TodoItemProps = {
 
 function TodoItem(props: TodoItemProps) {
   const [done, setDone] = useState(props.done);
-
   const updateTodoItem = useCallback(async () => {
     await axios.put(`${CONFIG.API_ENDPOINT}/todos/${props.id}`, {
       id: props.id,
@@ -50,6 +49,9 @@ interface TodoProps {
 function Todo(props: TodoProps) {
   const [todoItems, setTodoItems] = useState<{ [id: string]: TodoItemProps }>({});
   const [newTodoDescription, setNewTodoDescription] = useState('');
+
+  const today = new Date();
+  const dateOptions = {day: 'numeric', month: 'long', year: 'numeric'} as const
 
   const [isRefresh, setIsRefresh] = useState(false);
   const populateTodos = useCallback(async () => {
@@ -88,33 +90,8 @@ function Todo(props: TodoProps) {
       <Row>
         <Col>
           <div className='has-background-gradient'>
-            <h3>Todo App</h3>
-          </div>
-          <div>
-            <form action='#' onSubmit={(event) => {
-              submitNewTodo();
-              event?.preventDefault();
-            }}>
-              <div className='field'>
-                <label className="label" htmlFor="newTodoDescription">New todo: </label>
-                <div className='control'>
-                  <Row>
-                    <Col>
-                      <input className="input" id='newTodoDescription' type='text' value={newTodoDescription}
-                        onChange={(event) => { setNewTodoDescription(event.currentTarget.value) }} />
-                    </Col>
-                    <Col>
-                      <Button variant='primary' >Submit</Button>
-                    </Col>
-                    <Col>
-                      <Button type="button" onClick={onRefreshClicked}>
-                        <span className='sgds-icon sgds-icon-refresh' />
-                      </Button>
-                    </Col>
-                  </Row>
-                </div>
-              </div>
-            </form>
+            <h2>Today</h2>
+            {today.toLocaleDateString("en-UK", dateOptions)}
           </div>
           <div>
             <Table isFullwidth isHoverable isHorizontal isBordered>
@@ -123,8 +100,16 @@ function Todo(props: TodoProps) {
                 {
                   Object.keys(todoItems).map((item) => (<TodoItem key={todoItems[item].id} {...todoItems[item]} />))
                 }
+                <tr>
+                  <td>{<input type="checkbox" disabled></input>}</td>
+                  <td width={'100%'}>
+                    <input className="text" placeholder='Enter new to-do here' id='newTodoDescription' type='text' value={newTodoDescription} onChange={(event) => { setNewTodoDescription(event.currentTarget.value) }} >
+                    </input>
+                    </td>
+                </tr>
               </tbody>
             </Table>
+            <Button variant='primary' >Submit</Button>
           </div>
         </Col>
       </Row>
