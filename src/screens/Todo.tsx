@@ -66,24 +66,11 @@ function Todo(props: TodoProps) {
 
   const today = new Date();
   const dateOptions = {day: 'numeric', month: 'long', year: 'numeric'} as const
-
-  const [isRefresh, setIsRefresh] = useState(false);
+  
   const populateTodos = useCallback(async () => {
     const result = await axios.get(`${CONFIG.API_ENDPOINT}/todos`);
     setTodoItems(result.data);
   }, []);
-
-  const onRefreshClicked = useCallback(async () => {
-    setIsRefresh(true);
-    setTimeout(async () => {
-      await populateTodos();
-      setIsRefresh(false);
-    }, 400);
-  }, [populateTodos]);
-
-  useEffect(() => {
-    onRefreshClicked();
-  }, [onRefreshClicked]);
 
  async function submitNewTodo() {
     // Add a check here

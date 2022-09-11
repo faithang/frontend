@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import logo from './logo.svg';
-import Clock from './components/Clock';
 import NavigationBar from './components/NavigationBar';
 import Todo from './screens/Todo';
 import './App.css'
