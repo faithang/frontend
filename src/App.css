@@ -37,6 +37,10 @@
   }
 }
 
+.nav-item {
+  min-width: 10vh;
+}
+
 .has-background-gradient {
   background: #6037b3;
   min-height: 12vh;

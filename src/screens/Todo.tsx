@@ -1,5 +1,5 @@
-import axios from 'axios';
-import React, { useCallback, useEffect, useState } from 'react';
+import axios from "axios";
+import React, { useCallback, useEffect, useState } from "react";
 
 import {
   Container,
@@ -7,18 +7,18 @@ import {
   Col,
   Button,
   Form,
-  FormCheck
-} from '@govtechsg/sgds-react';
+  FormCheck,
+} from "@govtechsg/sgds-react";
 
-import CONFIG from '../config';
-import Table from '../components/Table';
-import crossIcon from '../icons/cross.svg';
+import CONFIG from "../config";
+import Table from "../components/Table";
+import crossIcon from "../icons/cross.svg";
 
 export type TodoItemProps = {
-  id: string,
-  description: string,
-  done: boolean,
-  refreshToDos: () => void
+  id: string;
+  description: string;
+  done: boolean;
+  refreshToDos: () => void;
 };
 
 function TodoItem(props: TodoItemProps) {
@@ -32,57 +32,68 @@ function TodoItem(props: TodoItemProps) {
   }, [props.description, props.id, done]);
 
   const deleteTodoItem = useCallback(async () => {
-    await axios.delete(`${CONFIG.API_ENDPOINT}/todos/${props.id}`)
-    props.refreshToDos()
+    await axios.delete(`${CONFIG.API_ENDPOINT}/todos/${props.id}`);
+    props.refreshToDos();
   }, [props.id, props.refreshToDos]);
 
   useEffect(() => {
     /* mark the todo when done (as a dependency) changes */
-    console.log(props.description, 'is marked as ', done ? 'done' : 'undone');
+    console.log(props.description, "is marked as ", done ? "done" : "undone");
     updateTodoItem();
   }, [props.description, done, updateTodoItem]);
 
-  return (<>
-    <tr>
-      <td>
-        <FormCheck onChange={(event) => setDone(event.currentTarget.checked)} checked={done} />
-      </td>
-      <td width={'100%'}>{props.description}</td>
-      <td>
-          <img alt="delete-icon" src={crossIcon} onClick={deleteTodoItem} className='delete-icon' />
-      </td>
-    </tr>
-  </>
+  return (
+    <>
+      <tr>
+        <td>
+          <FormCheck
+            onChange={(event) => setDone(event.currentTarget.checked)}
+            checked={done}
+          />
+        </td>
+        <td width={"100%"}>{props.description}</td>
+        <td>
+          <img
+            alt="delete-icon"
+            src={crossIcon}
+            onClick={deleteTodoItem}
+            className="delete-icon"
+          />
+        </td>
+      </tr>
+    </>
   );
 }
 
-interface TodoProps {
-
-}
-
-function Todo(props: TodoProps) {
-  const [todoItems, setTodoItems] = useState<{ [id: string]: TodoItemProps }>({});
-  const [newTodoDescription, setNewTodoDescription] = useState('');
+function Todo() {
+  const [todoItems, setTodoItems] = useState<{ [id: string]: TodoItemProps }>(
+    {}
+  );
+  const [newTodoDescription, setNewTodoDescription] = useState("");
 
   const today = new Date();
-  const dateOptions = {day: 'numeric', month: 'long', year: 'numeric'} as const
-  
+  const dateOptions = {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  } as const;
+
   const populateTodos = useCallback(async () => {
     const result = await axios.get(`${CONFIG.API_ENDPOINT}/todos`);
     setTodoItems(result.data);
   }, []);
 
- async function submitNewTodo() {
+  async function submitNewTodo() {
     // Add a check here
-    if (newTodoDescription.trim() !== '') {
+    if (newTodoDescription.trim() !== "") {
       const newTodo = {
         description: newTodoDescription,
       };
       await axios.post(`${CONFIG.API_ENDPOINT}/todos`, newTodo);
       await populateTodos();
-      setNewTodoDescription('');
+      setNewTodoDescription("");
     } else {
-      alert('Invalid Todo input!');
+      alert("Invalid Todo input!");
     }
   }
 
@@ -90,29 +101,48 @@ function Todo(props: TodoProps) {
     <Container>
       <Row>
         <Col>
-          <div className='has-background-gradient'>
+          <div className="has-background-gradient">
             <h2>Today</h2>
             {today.toLocaleDateString("en-UK", dateOptions)}
           </div>
           <div>
             <Form>
               <Table isFullwidth isHoverable isHorizontal isBordered>
-                <thead><tr><th>Done</th><th>Description</th></tr></thead>
+                <thead>
+                  <tr>
+                    <th>Done</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
                 <tbody>
-                  {
-                    Object.keys(todoItems).map((item) => (<TodoItem key={todoItems[item].id} {...todoItems[item]} refreshToDos={populateTodos}/>))
-                  }
-                  <tr >
+                  {Object.keys(todoItems).map((item) => (
+                    <TodoItem
+                      key={todoItems[item].id}
+                      {...todoItems[item]}
+                      refreshToDos={populateTodos}
+                    />
+                  ))}
+                  <tr>
                     <td>{<input type="checkbox" disabled></input>}</td>
-                    <td width={'100%'}>
-                      <input className="text table-input" placeholder='Enter new to-do here' id='newTodoDescription' type='text' value={newTodoDescription} onChange={(event) => { setNewTodoDescription(event.currentTarget.value) }} >
-                      </input>
-                      </td>
+                    <td width={"100%"}>
+                      <input
+                        className="text table-input"
+                        placeholder="Enter new to-do here"
+                        id="newTodoDescription"
+                        type="text"
+                        value={newTodoDescription}
+                        onChange={(event) => {
+                          setNewTodoDescription(event.currentTarget.value);
+                        }}
+                      ></input>
+                    </td>
                   </tr>
                 </tbody>
               </Table>
             </Form>
-            <Button size="sm" variant='primary' onClick={submitNewTodo}>Add</Button>
+            <Button size="sm" variant="primary" onClick={submitNewTodo}>
+              Add
+            </Button>
           </div>
         </Col>
       </Row>
