@@ -123,7 +123,9 @@ function Todo() {
                     />
                   ))}
                   <tr>
-                    <td>{<input type="checkbox" disabled></input>}</td>
+                    <td>
+                      <FormCheck disabled />
+                    </td>
                     <td width={"100%"}>
                       <input
                         className="text table-input"
