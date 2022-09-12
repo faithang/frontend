@@ -1,12 +1,5 @@
-import { ReactNode } from "react";
-import { Navbar, Nav, NavbarBrand, NavItem } from "@govtechsg/sgds-react/Nav";
+import { Navbar, Nav, NavItem } from "@govtechsg/sgds-react/Nav";
 import logo from "../icons/logo-sgds.svg";
-
-interface LinkProps {
-  to?: string;
-  className?: string;
-  children?: ReactNode;
-}
 
 const NavigationBar = () => {
   return (
