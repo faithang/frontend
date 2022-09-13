@@ -84,7 +84,6 @@ function Todo() {
   }, []);
 
   async function submitNewTodo() {
-    // Add a check here
     if (newTodoDescription.trim() !== "") {
       const newTodo = {
         description: newTodoDescription,
