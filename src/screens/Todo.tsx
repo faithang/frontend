@@ -16,6 +16,7 @@ export type TodoItemProps = {
 
 function TodoItem(props: TodoItemProps) {
   const [done, setDone] = useState(props.done);
+
   const updateTodoItem = useCallback(async () => {
     await axios.put(`${CONFIG.API_ENDPOINT}/todos/${props.id}`, {
       id: props.id,
@@ -63,6 +64,7 @@ function Todo() {
     {}
   );
   const [newTodoDescription, setNewTodoDescription] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const today = new Date();
   const dateOptions = {
@@ -81,6 +83,7 @@ function Todo() {
   }, []);
 
   async function submitNewTodo() {
+    setIsLoading(true);
     if (newTodoDescription.trim() !== "") {
       const newTodo = {
         description: newTodoDescription,
@@ -91,6 +94,7 @@ function Todo() {
     } else {
       alert("Invalid Todo input!");
     }
+    setIsLoading(false);
   }
 
   return (
@@ -135,8 +139,13 @@ function Todo() {
           </tbody>
         </Table>
       </Form>
-      <Button size="sm" variant="primary" onClick={submitNewTodo}>
-        Add
+      <Button
+        size="sm"
+        variant="primary"
+        onClick={submitNewTodo}
+        disabled={isLoading}
+      >
+        {isLoading ? "loading..." : "Add"}
       </Button>
     </Container>
   );
