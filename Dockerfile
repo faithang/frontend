@@ -12,3 +12,5 @@ COPY --chown=${user} package.json package-lock.json ./
 RUN npm install
 
 COPY --chown=${user} . .
+
+CMD [ "npm", "start" ]
