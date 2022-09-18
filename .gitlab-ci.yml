@@ -74,6 +74,6 @@ deploy-stage:
     ROLE_ARN: arn:aws:iam::477843748912:role/gitlab-bootcamp-oidc-role
   script:
     # Command to update ECS Service
-    - aws ecs update-service --cluster bootcamp-demo-application --service backend-app --force-new-deployment --region ap-southeast-1
+    - aws ecs update-service --cluster bootcamp-demo-application --service frontend-app --force-new-deployment --region ap-southeast-1
   # Enforces manual triggered deployment to prevent accidental runs
   when: manual
