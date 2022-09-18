@@ -39,6 +39,8 @@
 
 .nav-item {
   min-width: 10vh;
+  align-self: center;
+  flex-direction: column;
 }
 
 .has-background-gradient {

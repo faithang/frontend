@@ -7,7 +7,9 @@ const NavigationBar = () => {
       <Nav>
         <Navbar.Brand as="img" src={logo} alt="main logo" />
         <NavItem>
-          <Nav.Link href="/">Home</Nav.Link>
+          <Nav.Link className="nav-item" href="/">
+            Home
+          </Nav.Link>
         </NavItem>
         <NavItem className="nav-item">
           <Nav.Link eventKey="link1" href="/todo">
