@@ -10,9 +10,6 @@ stages:
   - publish
   - deploy
 
-tags: # Use tags if you have setup your own local Gitlab Runner, else you can omit this
-  - local
-
 # Build stage will build your docker image and stage a copy in Gitlab's Container Registry
 build-stage:
   image: docker:stable
@@ -20,6 +17,8 @@ build-stage:
   variables:
     # Variable holding the name of Gitlab Container Registry
     CONTAINER_BUILD_IMAGE: $CI_REGISTRY_IMAGE:latest
+  tags: # Use tags if you have setup your own local Gitlab Runner, else you can omit this
+    - local
   before_script:
     # Login to Gitlab Conatiner Registry
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -45,6 +44,8 @@ publish-stage:
     name: $CI_REGISTRY/gds-engineering-bootcamp/templates
     entrypoint:
       - '/usr/bin/env'
+  tags: # Use tags if you have setup your own local Gitlab Runner, else you can omit this
+    - local
   variables:
     # Enter ROLE_ARN of your created role from the previous aws setup
     ROLE_ARN: arn:aws:iam::477843748912:role/gitlab-bootcamp-oidc-role
@@ -66,6 +67,8 @@ publish-stage:
 deploy-stage:
   extends: .invoke-awscli-commands-with-assumerole
   stage: deploy
+  tags: # Use tags if you have setup your own local Gitlab Runner, else you can omit this
+    - local
   variables:
     # Enter ROLE_ARN of your created role from the previous aws setup
     ROLE_ARN: arn:aws:iam::477843748912:role/gitlab-bootcamp-oidc-role
