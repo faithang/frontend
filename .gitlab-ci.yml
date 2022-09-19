@@ -37,8 +37,7 @@ test-stage:
   before_script:
     - npm install
   script:
-    - npm run test:coverage
-  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+    - npm run test
 
 # Publish stage will establish a connection with AWS and publish your staged image to the Elastic Container Registry
 publish-stage:
