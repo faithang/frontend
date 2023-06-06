@@ -1,18 +1,18 @@
-import React, {ReactNode} from 'react';
+// import Reactf from 'react';
 
-export interface TableProps {
-  className?: string;
-  children?: ReactNode;
-  isVertical?: boolean;
-  isHorizontal?: boolean;
-  isBordered?: boolean;
-  isStriped?: boolean;
-  isNarrow?: boolean;
-  isHoverable?: boolean;
-  isFullwidth?: boolean;
-}
+// export interface TableProps {
+//   className?: string;
+//   children?: ReactNode;
+//   isVertical?: boolean;
+//   isHorizontal?: boolean;
+//   isBordered?: boolean;
+//   isStriped?: boolean;
+//   isNarrow?: boolean;
+//   isHoverable?: boolean;
+//   isFullwidth?: boolean;
+// }
 
-function Table(props: TableProps) {
+function Table(props) {
   const classPrefix = 'table'
   const classList = [];
   classList.push(props.className);

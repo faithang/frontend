@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import logo from "./logo.svg";
 import NavigationBar from "./components/NavigationBar";
 import Todo from "./screens/Todo";
+import logo from "./logo.svg";
 import "./App.css";
 
-function App(): React.ReactElement {
+function App() {
   return (
     <BrowserRouter>
       <NavigationBar />

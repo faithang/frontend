@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Container, Button, Form, FormCheck } from "@govtechsg/sgds-react";
 
@@ -7,41 +7,44 @@ import CONFIG from "../config";
 import Table from "../components/Table";
 import crossIcon from "../icons/cross.svg";
 
-export type TodoItemProps = {
-  id: string;
-  description: string;
-  done: boolean;
-  refreshToDos: () => void;
-};
+// export type TodoItem = {
+//   id: string;
+//   description: string;
+//   done: boolean;
+// }
 
-function TodoItem(props: TodoItemProps) {
+// export type TodoItemProps = {
+//   id: string;
+//   description: string;
+//   done: boolean;
+//   refreshToDos: () => void;
+// };
+
+function TodoItem(props) {
   const [done, setDone] = useState(props.done);
 
-  const updateTodoItem = useCallback(async () => {
-    await axios.put(`${CONFIG.API_ENDPOINT}/todos/${props.id}`, {
+  const updateTodoItem = (done) => {
+    setDone(done)
+    axios.put(`${CONFIG.API_ENDPOINT}/${props.id}`, {
       id: props.id,
       description: props.description,
       done: done,
     });
-  }, [props.description, props.id, done]);
+  }
 
-  const deleteTodoItem = useCallback(async () => {
-    await axios.delete(`${CONFIG.API_ENDPOINT}/todos/${props.id}`);
-    props.refreshToDos();
-  }, [props.id, props.refreshToDos]);
-
-  useEffect(() => {
-    /* mark the todo when done (as a dependency) changes */
-    console.log(props.description, "is marked as ", done ? "done" : "undone");
-    updateTodoItem();
-  }, [props.description, done, updateTodoItem]);
+  const deleteTodoItem = () => {
+    axios.delete(`${CONFIG.API_ENDPOINT}/${props.id}`)
+      .then(() => {
+        props.refreshToDos();
+      })
+  }
 
   return (
     <>
       <tr>
         <td>
           <FormCheck
-            onChange={(event) => setDone(event.currentTarget.checked)}
+            onChange={(event) => updateTodoItem(event.currentTarget.checked)}
             checked={done}
           />
         </td>
@@ -60,9 +63,7 @@ function TodoItem(props: TodoItemProps) {
 }
 
 function Todo() {
-  const [todoItems, setTodoItems] = useState<{ [id: string]: TodoItemProps }>(
-    {}
-  );
+  const [todoItems, setTodoItems] = useState({});
   const [newTodoDescription, setNewTodoDescription] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -71,30 +72,33 @@ function Todo() {
     day: "numeric",
     month: "long",
     year: "numeric",
-  } as const;
+  }
 
   useEffect(() => {
     populateTodos();
   }, []);
 
-  const populateTodos = useCallback(async () => {
-    const result = await axios.get(`${CONFIG.API_ENDPOINT}/todos`);
-    setTodoItems(result.data);
-  }, []);
+  const populateTodos = () => {
+    axios.get(`${CONFIG.API_ENDPOINT}`)
+      .then((result) => {
+        setTodoItems(result.data);
+      })
+  }
 
-  async function submitNewTodo() {
+  const submitNewTodo = () => {
     setIsLoading(true);
     if (newTodoDescription.trim() !== "") {
       const newTodo = {
         description: newTodoDescription,
       };
-      await axios.post(`${CONFIG.API_ENDPOINT}/todos`, newTodo);
-      await populateTodos();
-      setNewTodoDescription("");
+      axios.post(`${CONFIG.API_ENDPOINT}`, newTodo).then(() => {
+        populateTodos();
+        setNewTodoDescription("");
+      })
     } else {
       alert("Invalid Todo input!");
     }
-    setIsLoading(false);
+    setIsLoading(false)
   }
 
   return (
