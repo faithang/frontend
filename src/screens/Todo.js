@@ -7,19 +7,6 @@ import CONFIG from "../config";
 import Table from "../components/Table";
 import crossIcon from "../icons/cross.svg";
 
-// export type TodoItem = {
-//   id: string;
-//   description: string;
-//   done: boolean;
-// }
-
-// export type TodoItemProps = {
-//   id: string;
-//   description: string;
-//   done: boolean;
-//   refreshToDos: () => void;
-// };
-
 function TodoItem(props) {
   const [done, setDone] = useState(props.done);
 

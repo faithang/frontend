@@ -8,7 +8,7 @@ const config = {
         API_ENDPOINT: "http://localhost:9000/api/todos"
     },
     production: {
-        API_ENDPOINT: "<api-endpoint>"
+        API_ENDPOINT: "<deployed-api-endpoint>"
     },
 }[env];
 
