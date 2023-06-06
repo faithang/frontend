@@ -1,15 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-
 import { Container, Button, Form, FormCheck } from "@govtechsg/sgds-react";
-
 import CONFIG from "../config";
 import Table from "../components/Table";
 import crossIcon from "../icons/cross.svg";
 
+// TodoItem element that manages updates and deletion of todo items
+// Props will hold todoItems passed from Todo Element
 function TodoItem(props) {
   const [done, setDone] = useState(props.done);
 
+  // PUT request to update todo when marked completed
   const updateTodoItem = (done) => {
     setDone(done)
     axios.put(`${CONFIG.API_ENDPOINT}/${props.id}`, {
@@ -19,9 +20,11 @@ function TodoItem(props) {
     });
   }
 
+  // DELETE request to remove entry
   const deleteTodoItem = () => {
     axios.delete(`${CONFIG.API_ENDPOINT}/${props.id}`)
       .then(() => {
+        // Calls for re-render of component after deletion
         props.refreshToDos();
       })
   }
@@ -50,10 +53,12 @@ function TodoItem(props) {
 }
 
 function Todo() {
+  // State Management
   const [todoItems, setTodoItems] = useState({});
   const [newTodoDescription, setNewTodoDescription] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  // Date initalization
   const today = new Date();
   const dateOptions = {
     day: "numeric",
@@ -61,10 +66,13 @@ function Todo() {
     year: "numeric",
   }
 
+  // Manages side-effects like API calls
   useEffect(() => {
+    // Fetches data on initial render
     populateTodos();
-  }, []);
+  }, []); // Add state variables to dependency array to allow re-render of information
 
+  // GET request to fetch ToDo information 
   const populateTodos = () => {
     axios.get(`${CONFIG.API_ENDPOINT}`)
       .then((result) => {
@@ -72,13 +80,16 @@ function Todo() {
       })
   }
 
+  // POST request to submit new ToDo entry
   const submitNewTodo = () => {
     setIsLoading(true);
+    // Validation to ensure entry is not empty
     if (newTodoDescription.trim() !== "") {
       const newTodo = {
         description: newTodoDescription,
       };
       axios.post(`${CONFIG.API_ENDPOINT}`, newTodo).then(() => {
+        // Does below action after request has been made 
         populateTodos();
         setNewTodoDescription("");
       })
@@ -103,7 +114,9 @@ function Todo() {
             </tr>
           </thead>
           <tbody>
+            {/* Iterate todoItems list to create new rows*/}
             {Object.keys(todoItems).map((item) => (
+              // Forwards items to TodoItem element as props
               <TodoItem
                 key={todoItems[item].id}
                 {...todoItems[item]}
