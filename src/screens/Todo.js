@@ -66,11 +66,11 @@ function Todo() {
     year: "numeric",
   }
 
-  // Manages side-effects like API calls
+  // Manages side effects like API calls
   useEffect(() => {
     // Fetches data on initial render
     populateTodos();
-  }, []); // Add state variables to dependency array to allow re-render of information
+  }, [todoItems]); // Add variables to dependency array to allow re-render of information on state changes
 
   // GET request to fetch ToDo information 
   const populateTodos = () => {
@@ -114,12 +114,14 @@ function Todo() {
             </tr>
           </thead>
           <tbody>
-            {/* Iterate todoItems list to create new rows*/}
+            {/* Iterate todoItems list to create new rows */}
             {Object.keys(todoItems).map((item) => (
               // Forwards items to TodoItem element as props
               <TodoItem
                 key={todoItems[item].id}
-                {...todoItems[item]}
+                id={todoItems[item].id}
+                done={todoItems[item].done}
+                description={todoItems[item].description}
                 refreshToDos={populateTodos}
               />
             ))}
