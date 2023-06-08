@@ -52,6 +52,53 @@ function TodoItem(props) {
   );
 }
 
+// TodoItem element that manages updates and deletion of todo items
+// Props will hold todoItems passed from Todo Element
+function TodoItem(props) {
+  const [done, setDone] = useState(props.done);
+
+  // PUT request to update todo when marked completed
+  const updateTodoItem = (done) => {
+    setDone(done)
+    axios.put(`${CONFIG.API_ENDPOINT}/${props.id}`, {
+      id: props.id,
+      description: props.description,
+      done: done,
+    });
+  }
+
+  // DELETE request to remove entry
+  const deleteTodoItem = () => {
+    axios.delete(`${CONFIG.API_ENDPOINT}/${props.id}`)
+      .then(() => {
+        // Calls for re-render of component after deletion
+        props.refreshToDos();
+      })
+  }
+
+  return (
+    <>
+      <tr>
+        <td>
+          <FormCheck
+            onChange={(event) => updateTodoItem(event.currentTarget.checked)}
+            checked={done}
+          />
+        </td>
+        <td width={"100%"}>{props.description}</td>
+        <td>
+          <img
+            alt="delete-icon"
+            src={crossIcon}
+            onClick={deleteTodoItem}
+            className="delete-icon"
+          />
+        </td>
+      </tr>
+    </>
+  );
+}
+
 function Todo() {
   const [todoItems, setTodoItems] = useState({});
   const [newTodoDescription, setNewTodoDescription] = useState("");
