@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Container, Button, Form, FormCheck } from "@govtechsg/sgds-react";
 import CONFIG from "../config";
 import Table from "../components/Table";
+import crossIcon from "../icons/cross.svg";
 
 // TodoItem element that manages updates and deletion of todo items
 // Props will hold todoItems passed from Todo Element
@@ -19,6 +20,15 @@ function TodoItem(props) {
     });
   }
 
+  // DELETE request to remove entry
+  const deleteTodoItem = () => {
+    axios.delete(`${CONFIG.API_ENDPOINT}/${props.id}`)
+      .then(() => {
+        // Calls for re-render of component after deletion
+        props.refreshToDos();
+      })
+  }
+
   return (
     <>
       <tr>
@@ -29,6 +39,14 @@ function TodoItem(props) {
           />
         </td>
         <td width={"100%"}>{props.description}</td>
+        <td>
+          <img
+            alt="delete-icon"
+            src={crossIcon}
+            onClick={deleteTodoItem}
+            className="delete-icon"
+          />
+        </td>
       </tr>
     </>
   );
