@@ -12,21 +12,21 @@ There are a couple of things you need for this workshop:
 - Git (version control system) client, either:
   - GitHub Desktop for [Windows](https://desktop.github.com) | [macOS](https://desktop.github.com)
   - Git client (from your Linux distribution)
-- Docker
-  - Docker Desktop for [Windows](https://docs.docker.com/desktop/windows/install/) | [macOS](https://docs.docker.com/desktop/mac/install/)
-  - Docker Engine and Docker Compose for [Ubuntu 20.04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04) | [Arch Linux](https://wiki.archlinux.org/title/docker)
+- NodeJs: https://nodejs.org/en/download 
 
 ## What's Next?
-
-To learn more about how the application is structured, see [Architecture.md](./ARCHITECTURE.md)
 
 Once you're ready, let's get started with the [Exercise List](https://go.gov.sg/learn-dev)
 
 ## Commands
 
-- Run Application - `npm run start`
-- Fix linter issues - `npm run lint`
-- Run tests for checkpoint 0 - `npm - run test:0`
-- Run tests for checkpoint 1 - `npm - run test:1`
-- Run tests for checkpoint 2 - `npm - run test:2`
-- Run tests for subsequent checkpoints - `npm - run test:extra`
+- Install Dependencies - `npm install`
+- Run Application - `npm start`
+
+## Checkpoint Branches:
+
+- **Checkpoint 0**: Explore todo application interface
+- **Checkpoint 1**: GET todo entries
+- **Checkpoint 2**: POST todo entry
+- **Checkpoint 3**: UPDATE todo entry 
+- **Checkpoint 4**: DELETE todo entry
