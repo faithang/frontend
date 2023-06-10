@@ -9,11 +9,22 @@ import Table from "../components/Table";
 function TodoItem(props) {
   const [done, setDone] = useState(props.done);
 
+  // PUT request to update todo when marked completed
+  const updateTodoItem = (done) => {
+    setDone(done)
+    axios.put(`${CONFIG.API_ENDPOINT}/${props.id}`, {
+      id: props.id,
+      description: props.description,
+      done: done,
+    });
+  }
+
   return (
     <>
       <tr>
         <td>
           <FormCheck
+            onChange={(event) => updateTodoItem(event.currentTarget.checked)}
             checked={done}
           />
         </td>
