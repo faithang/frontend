@@ -25,6 +25,7 @@ function TodoItem(props) {
 
 function Todo() {
   const [todoItems, setTodoItems] = useState({});
+  const [newTodoDescription, setNewTodoDescription] = useState("");
 
   const today = new Date();
   const dateOptions = {
@@ -45,6 +46,23 @@ function Todo() {
       .then((result) => {
         setTodoItems(result.data);
       })
+  }
+
+  // POST request to submit new ToDo entry
+  const submitNewTodo = () => {
+    // Validation to ensure entry is not empty
+    if (newTodoDescription.trim() !== "") {
+      const newTodo = {
+        description: newTodoDescription,
+      };
+      axios.post(`${CONFIG.API_ENDPOINT}`, newTodo).then(() => {
+        // Does below action after request has been made 
+        populateTodos();
+        setNewTodoDescription("");
+      })
+    } else {
+      alert("Invalid Todo input!");
+    }
   }
 
   return (
@@ -83,13 +101,17 @@ function Todo() {
                   placeholder="Enter new to-do here"
                   id="newTodoDescription"
                   type="text"
+                  value={newTodoDescription}
+                  onChange={(event) => {
+                    setNewTodoDescription(event.currentTarget.value);
+                  }}
                 ></input>
               </td>
             </tr>
           </tbody>
         </Table>
       </Form>
-      <Button size="sm" variant="primary">
+      <Button size="sm" variant="primary" onClick={submitNewTodo}>
         Add
       </Button>
     </Container>
