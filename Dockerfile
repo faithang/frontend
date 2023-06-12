@@ -1,4 +1,4 @@
-FROM node:alpine AS builder
+FROM node:14-alpine AS build
 
 ARG user="node"
 ARG appdir="/home/node/app"
@@ -8,11 +8,14 @@ WORKDIR ${appdir}
 USER ${user}
 
 COPY --chown=${user} package.json package-lock.json ./
-RUN npm install
+RUN npm install --only=production
 
 COPY --chown=${user} . .
 
-EXPOSE 3000
-ENV PORT 3000
+RUN npm run build
 
-CMD [ "npm", "start" ]
+# Stage 2: Serve the built app using a lightweight HTTP server
+
+EXPOSE 3000
+
+CMD ["npx", "serve", "-s", "build"]
