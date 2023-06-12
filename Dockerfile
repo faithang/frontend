@@ -18,5 +18,4 @@ RUN npm run build
 
 EXPOSE 3000
 
-# Set NODE_ENV and start the app with serve, loading the .env file
-CMD ["sh", "-c", "export NODE_ENV=production && source .env && npx serve -s . -l 3000"]
+CMD ["npx", "serve", "-s", "build"]
