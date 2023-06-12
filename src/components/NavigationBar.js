@@ -11,9 +11,9 @@ const NavigationBar = () => {
             Home
           </Nav.Link>
         </NavItem>
-        <NavItem className="nav-item">
-          <Nav.Link eventKey="link1" href="/todo">
-            To do list
+        <NavItem>
+          <Nav.Link eventKey="link1" className="nav-item" href="/todo">
+            Todo
           </Nav.Link>
         </NavItem>
       </Nav>
