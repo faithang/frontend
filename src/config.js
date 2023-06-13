@@ -5,7 +5,8 @@ const config = {
         API_ENDPOINT: "http://localhost:9000/api/todos"
     },
     development: {
-        API_ENDPOINT: "http://localhost:9000/api/todos"
+        // API_ENDPOINT: "http://localhost:9000/api/todos"
+        API_ENDPOINT: "https://asia-southeast1-geekout-api-demo.cloudfunctions.net/default/api/todosfirebase"
     },
     production: {
         API_ENDPOINT: "https://asia-southeast1-geekout-api-demo.cloudfunctions.net/default/api/todosfirebase"
